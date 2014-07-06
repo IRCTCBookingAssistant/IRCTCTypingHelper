@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="optionsApp">
+  <head>
+    <title>IRCTC Booking Assistant Options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/libs/bootstrap-3.2.0/css/bootstrap.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container" ng-controller="optionsCtrl">
+      <h1>IRCTC Booking Assistant</h1>
+      <div class="row">
+        <div class="col-md-4">Login ID</div>
+        <div class="col-md-8">
+          <input type="text" placeholder="User ID" ng-model="travelPlan.userId">{{travelPlan.userId}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">Password</div>
+        <div class="col-md-8">
+          <input type="password" placeholder="Password" ng-model="travelPlan.password">{{travelPlan.password}}
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/libs/angularjs1.2.19/angular.js"></script>
+  <script src="/options/options.js"></script>
+</html>

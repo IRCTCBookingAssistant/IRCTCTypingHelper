@@ -1,0 +1,46 @@
+{
+  "name": "IRCTC Tatkal Booking Assistant",
+  "version": "0.1.1",
+  "manifest_version": 2,
+  "icons": { "16": "libs/icons/icon16.png",
+           "19": "libs/icons/icon19.png",
+           "24": "libs/icons/icon24.png",
+           "32": "libs/icons/icon32.png",
+           "38": "libs/icons/icon38.png",
+           "48": "libs/icons/icon48.png",
+           "64": "libs/icons/icon64.png",
+           "72": "libs/icons/icon72.png",
+           "96": "libs/icons/icon96.png",
+          "128": "libs/icons/icon128.png" },
+  "description": "IRCTC Booking Assitant",
+  "options_page": "options/options.html",
+  "background": {
+      "scripts": ["background/background.js"]
+  },
+  "permissions": [
+    "tabs"
+    ,"contentSettings"
+    , "https://www.irctc.co.in/*"
+  ],
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": ["https://www.irctc.co.in/*"],
+      "js": ["contentscript/ContentScript.js"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": { "16": "libs/icons/icon16.png",
+           "19": "libs/icons/icon19.png",
+           "24": "libs/icons/icon24.png",
+           "32": "libs/icons/icon32.png",
+           "38": "libs/icons/icon38.png",
+           "48": "libs/icons/icon48.png",
+           "64": "libs/icons/icon64.png",
+           "72": "libs/icons/icon72.png",
+           "96": "libs/icons/icon96.png",
+          "128": "libs/icons/icon128.png" },
+    "default_title": "IRCTC Booking Assistant"
+  }
+}
+
