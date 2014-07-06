@@ -1,85 +1,47 @@
 ;(function(chrome){
-chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.create({url: "options.html"});
-});
+    "use strict";
+    chrome.browserAction.onClicked.addListener(function(tab) {
+        chrome.tabs.create({url: "options/options.html"});
+    });
 
-var tabPreference = {};
-var tabStartupProfileId = null;
-
-chrome.extension.onRequest.addListener(
-  function(request, sender, sendResponse) {
-    //console.log(JSON.stringify(request));
-    var resultFunc = false;
-    switch(request.method)
-    {
-        case "saveData":
-        {
-            localStorage["IRCTCData"] = JSON.stringify(request.data);
-            resultFunc = true;
-            sendResponse({result: resultFunc});
-            break;
-        }
-        case "loadData":
-        {
-            var strdata = localStorage["IRCTCData"];
-            var data = {options:{},master:{}};
-            var tabData = {automationRunning:true};
-            if(tabStartupProfileId != null) {
-                tabData.profileId = tabStartupProfileId;
-            }
-            if(strdata != null)
+    chrome.extension.onRequest.addListener(
+      function(request, sender, sendResponse) {
+        var saveLocal = true;
+        
+        var savedata = (function(key, value){
+            value = JSON.stringify(value);
+            if(saveLocal)
             {
-                 data = JSON.parse(strdata);
-                 resultFunc = true;
+                localStorage[key] = value;
+            }
+        });
 
-                 if(sender.tab != null 
-                     && tabPreference[sender.tab.id] != null)
-                 {
-                     tabData = tabPreference[sender.tab.id];
-                 }
+        var getdata = (function(key){
+            var data;
+            if(saveLocal) {
+                data = localStorage[key];
             }
-            
-            sendResponse({result: resultFunc, data:data, tabData:tabData});
-            break;
-        }
-        case "saveTabData":
+            return JSON.parse(data);
+        });
+        
+        switch(request.method)
         {
-            if(sender.tab)
+            case "saveTravelPlan" :
             {
-                tabPreference[sender.tab.id] = request.tabData;
-                resultFunc = true;
+                savedata("travelplan",request.data);
+                break;
             }
-            sendResponse({result: resultFunc, data:tabPreference});
-            break;
-        }
-        case "saveTabStartProfileId":
-        {
-            tabStartupProfileId = request.tabStartupProfileId;
-            resultFunc = true;
-            sendResponse({result: resultFunc, tabStartupProfileId: tabStartupProfileId});
-            break;
-        }
-        case "ImagesSettings" :
-        {
-            var setting = "allow";
-             
-            if(request.setting == false)
+            case "getTravelPlan" :
             {
-                var setting = "block";
+                var data = getdata("travelplan");
+                sendResponse(data);
+                break;
             }
-            chrome.contentSettings.images.set({
-                    setting: setting,
-                    primaryPattern: "https://www.irctc.co.in/*"
-                });
-            resultFunc = true;
-            sendResponse({result: resultFunc});
-            break;
-        }
-        default:
-        {
-            sendResponse({}); // snub them.
-        }
-   }
-  });
-
+            default:
+            {
+                sendResponse({}); // snub them.
+                break;
+            }
+       }
+    });
 })(chrome);

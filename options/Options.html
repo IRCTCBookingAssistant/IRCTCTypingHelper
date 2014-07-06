@@ -20,6 +20,10 @@
           <input type="password" placeholder="Password" ng-model="travelPlan.password">{{travelPlan.password}}
         </div>
       </div>
+      <div class="row">
+        <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
+        <button class="btn btn-default" ng-click="getTravelPlan()">Load</button>
+      </div>
     </div>
   </body>
   <script src="/libs/angularjs1.2.19/angular.js"></script>
