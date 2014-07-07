@@ -25,8 +25,8 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "matches": ["https://www.irctc.co.in/*"],
-      "js": ["contentscript/ContentScript.js"]
+      "matches": ["https://nget.irctc.co.in/*"],
+      "js": ["libs/jquery2.1.1/jquery-2.1.1.js","libs/angularjs1.2.19/angular.js","contentscript/ContentScript.js"]
     }
   ],
   "browser_action": {
