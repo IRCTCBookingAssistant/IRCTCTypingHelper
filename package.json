@@ -1,0 +1,26 @@
+{
+  "name": "IRCTCTypingHelper",
+  "version": "0.1.0",
+  "description": "Chrome extenstion to type assist on IRCTC web site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IRCTCBookingAssistant/IRCTCTypingHelper.git"
+  },
+  "keywords": [
+    "IRCTC"
+  ],
+  "author": "IRCTCBookingAssistant",
+  "license": "None",
+  "bugs": {
+    "url": "https://github.com/IRCTCBookingAssistant/IRCTCTypingHelper/issues"
+  },
+  "homepage": "https://github.com/IRCTCBookingAssistant/IRCTCTypingHelper",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0"
+  }
+}

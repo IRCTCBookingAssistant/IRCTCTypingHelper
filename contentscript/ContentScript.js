@@ -3,7 +3,7 @@
 	chrome.extension.sendRequest({method:"getTravelPlan"},
 		(function(response){
 			$("#loginFormId").attr("ng-controller","loginCtrl");
-			$("#usernameId").attr("ng-model","response.userId")
+			$("#usernameId").attr("ng-model","response.userId");
 			//$("#usernameId").val(response.userId);
 			angular.module('booking', [])
 			  .controller('loginCtrl', function($scope) {
