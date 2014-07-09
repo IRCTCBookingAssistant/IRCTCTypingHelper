@@ -6,35 +6,32 @@
 
     chrome.extension.onRequest.addListener(
       function(request, sender, sendResponse) {
-        var saveLocal = true;
+        var storageArea = chrome.storage.sync;
         
-        var savedata = function(key, value){
-            value = JSON.stringify(value);
-            if(saveLocal)
-            {
-                localStorage[key] = value;
-            }
+        var saveData = function(key, value) {
+            var temp = {};
+            temp[key] = value;
+            storageArea.set(temp);
         };
 
-        var getdata = function(key){
-            var data;
-            if(saveLocal) {
-                data = localStorage[key];
-            }
-            return JSON.parse(data);
+        var getData = function(key, callback) {
+            storageArea.get(key, function(data){
+                callback(data[key]);
+            });
         };
         
         switch(request.method)
         {
             case "saveTravelPlan" :
             {
-                savedata("travelplan",request.data);
+                saveData("travelplan",request.data);
                 break;
             }
             case "getTravelPlan" :
             {
-                var data = getdata("travelplan");
-                sendResponse(data);
+                getData("travelplan",function(data){
+                    sendResponse(data);
+                });
                 break;
             }
             default:

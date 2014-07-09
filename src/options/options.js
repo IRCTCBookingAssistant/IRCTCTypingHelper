@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module("optionsApp",[])
 	.controller("optionsCtrl",["$scope","$q",function($scope,$q) {
-		$scope.travelPlanInfo = [
+		$scope.travelPlan = [
 		{name:"User Id",value:"foo123",placeholder:"User Id",type:"text"},
 		{name:"Password",value:"foo456",placeholder:"Password",type:"password"}
 		];
