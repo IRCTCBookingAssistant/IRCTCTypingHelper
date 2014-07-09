@@ -1,7 +1,7 @@
-;(function(angular,chrome) {
-	"use strict";
+;(function(angular,chrome,$) {
+	'use strict';
 	chrome.extension.sendRequest({method:"getTravelPlan"},
-		(function(response){
+		function(response){
 			$("#loginFormId").attr("ng-controller","loginCtrl");
 			$("#usernameId").attr("ng-model","response.userId");
 			//$("#usernameId").val(response.userId);
@@ -10,5 +10,5 @@
 			      $scope.response = response;
 			  });
 		    angular.bootstrap(document, ['booking']);
-		}));
-})(angular,chrome);
+		});
+})(angular,chrome,jQuery);

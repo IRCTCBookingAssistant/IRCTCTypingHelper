@@ -1,0 +1,10 @@
+{
+  "extends": ".jshintrc-base",
+  "node": true,
+  "browser": true,
+  "jquery" : true,
+  "globals": {
+  	"angular": true,
+  	"chrome": true
+  }
+}

@@ -1,5 +1,5 @@
 ;(function(chrome){
-    "use strict";
+    'use strict';
     chrome.browserAction.onClicked.addListener(function(tab) {
         chrome.tabs.create({url: "options/options.html"});
     });
@@ -8,21 +8,21 @@
       function(request, sender, sendResponse) {
         var saveLocal = true;
         
-        var savedata = (function(key, value){
+        var savedata = function(key, value){
             value = JSON.stringify(value);
             if(saveLocal)
             {
                 localStorage[key] = value;
             }
-        });
+        };
 
-        var getdata = (function(key){
+        var getdata = function(key){
             var data;
             if(saveLocal) {
                 data = localStorage[key];
             }
             return JSON.parse(data);
-        });
+        };
         
         switch(request.method)
         {
