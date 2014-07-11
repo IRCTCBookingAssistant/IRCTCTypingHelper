@@ -2,9 +2,13 @@
 	'use strict';
 	angular.module("optionsApp",[])
 	.controller("optionsCtrl",["$scope","$q",function($scope,$q) {
-		$scope.travelPlan = [
-		{name:"User Id",value:"foo123",placeholder:"User Id",type:"text"},
-		{name:"Password",value:"foo456",placeholder:"Password",type:"password"}
+		/*$scope.travelPlan = {
+		   userid: {val:"foo123"},
+		   pwd: {val:"foo456"}
+		};*/
+		$scope.appConfig = [
+			{key:"userid", displayName:"User Id",placeholder:"User Id",type:"text",id:"usernameId",name:"j_username"},
+			{key:"pwd",displayName:"Password",placeholder:"Password",type:"password",id:"",name:"j_password"}
 		];
 		$scope.saveTravelPlan = function(){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
@@ -18,5 +22,6 @@
 	    			$scope.$apply();
     		});
 	    };
+	    $scope.getTravelPlan();
 	}]);
 })(angular,chrome);

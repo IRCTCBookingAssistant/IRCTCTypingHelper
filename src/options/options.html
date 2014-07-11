@@ -8,11 +8,11 @@
   <body>
     <div class="container" ng-controller="optionsCtrl">
       <h1>IRCTC Booking Assistant</h1>
-      <div ng-repeat="item in travelPlan">
+      <div ng-repeat="item in appConfig">
         <div class="row">
-          <div class="col-md-4">{{item.name}}</div>
+          <div class="col-md-4">{{item.displayName}}</div>
           <div class="col-md-8">
-            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="item.value">{{item.value}}
+            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val">{{travelPlan[item.key].val}}
           </div>
         </div>
       </div>
