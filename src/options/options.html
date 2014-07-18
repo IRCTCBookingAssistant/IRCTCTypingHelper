@@ -9,10 +9,18 @@
     <div class="container" ng-controller="optionsCtrl">
       <h1>IRCTC Booking Assistant</h1>
       <div ng-repeat="item in appConfig">
-        <div class="row">
+        <div class="row" ng-if="item.control === 'input'">
           <div class="col-md-4">{{item.displayName}}</div>
           <div class="col-md-8">
             <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val">{{travelPlan[item.key].val}}
+            <span ng-if="item.type === 'date'">{{toDayString(travelPlan[item.key].val)}}</span>
+          </div>
+        </div>
+        <div class="row" ng-if="item.control === 'select'">
+          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-8">
+            <select ng-model="travelPlan[item.key].val" ng-options="opt.label for opt in item.options">
+            </select>{{travelPlan[item.key].val}}   {{item.options}}   {{travelPlan[item.key].val === item.options[0] }} {{item.options.indexOf(travelPlan[item.key].val)}}     
           </div>
         </div>
       </div>
