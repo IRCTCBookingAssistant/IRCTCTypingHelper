@@ -8,7 +8,10 @@ Goal:
 
 Functional:  
 Login Type Assist: Skeleton done.
-Click event using angular
+Add default for date and select:done
+Move default value provider to backgroudn to ensure objetc availability in the content script.
+Click event using angular.
+
 
 Non Functional:
 Options Page: Skeleton done
