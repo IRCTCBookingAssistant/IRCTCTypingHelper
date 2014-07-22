@@ -6,7 +6,9 @@
 			var now = new Date();
 			var nextday = new Date(now.getFullYear(), now.getMonth(), 
 				now.getDate() + 1,0,now.getTimezoneOffset() * (-1),0,0);
-			return $filter('date')(nextday, 'yyyy-MM-dd');
+			return nextday.getFullYear() + '-' + 
+				(nextday.getMonth() + 1) + '-' +
+				nextday.getDate();
 		};
 		$scope.toDayString = function(date){
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
