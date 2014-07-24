@@ -6,9 +6,10 @@
 			var now = new Date();
 			var nextday = new Date(now.getFullYear(), now.getMonth(), 
 				now.getDate() + 1,0,now.getTimezoneOffset() * (-1),0,0);
-			return nextday.getFullYear() + '-' + 
-				(nextday.getMonth() + 1) + '-' +
-				nextday.getDate();
+			var formattedDate = String(10000 * nextday.getFullYear() + 
+				100 * (nextday.getMonth() + 1) + 
+				nextday.getDate());
+			return formattedDate.slice(0,4) + '-' + formattedDate.slice(4,6) + '-' + formattedDate.slice(6);
 		};
 		$scope.toDayString = function(date){
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -38,8 +39,7 @@
 	    $scope.getTravelPlan = function(){
 	    	chrome.extension.sendRequest({method:"getTravelPlan"},
 	    		function(response){
-	    			//var travelPlan = angular.extend(defaultTravelPlan,response);
-	    			var travelPlan = defaultTravelPlan;
+	    			var travelPlan = angular.extend(defaultTravelPlan,response);
 	    			var index1, index2;
 	    			//Fix select option objects for ===
 	    			for(index1 = 0;  index1 < $scope.appConfig.length; index1 += 1) {
