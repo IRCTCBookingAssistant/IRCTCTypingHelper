@@ -15,7 +15,7 @@
   "description": "IRCTC Booking Assitant",
   "options_page": "options/options.html",
   "background": {
-      "scripts": ["background/background.js"]
+      "scripts": ["libs/jquery2.1.1/jquery-2.1.1.js","background/background.js"]
   },
   "permissions": [
     "tabs"

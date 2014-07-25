@@ -1,27 +1,10 @@
-;(function(angular,chrome) {
+;(function(angular,chrome,undefined) {
 	'use strict';
 	angular.module("optionsApp",[])
 	.controller("optionsCtrl",["$scope","$q","$filter",function($scope,$q,$filter) {
-		var defaultDate = function() {
-			var now = new Date();
-			var nextday = new Date(now.getFullYear(), now.getMonth(), 
-				now.getDate() + 1,0,now.getTimezoneOffset() * (-1),0,0);
-			var formattedDate = String(10000 * nextday.getFullYear() + 
-				100 * (nextday.getMonth() + 1) + 
-				nextday.getDate());
-			return formattedDate.slice(0,4) + '-' + formattedDate.slice(4,6) + '-' + formattedDate.slice(6);
-		};
 		$scope.toDayString = function(date){
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			return weekday[(new Date(date)).getDay()];
-		};
-		var defaultTravelPlan = {
-		   userid: {val:""},
-		   pwd: {val:""},
-		   from:{val:""},
-		   to:{val:""},
-		   date:{val: defaultDate()},
-		   ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
 		};
 		$scope.appConfig = [
 			{key:"userid", displayName:"User Id",placeholder:"User Id",control:"input",type:"text",id:"usernameId",name:"j_username"},
@@ -39,7 +22,7 @@
 	    $scope.getTravelPlan = function(){
 	    	chrome.extension.sendRequest({method:"getTravelPlan"},
 	    		function(response){
-	    			var travelPlan = angular.extend(defaultTravelPlan,response);
+	    			var travelPlan = response;
 	    			var index1, index2;
 	    			//Fix select option objects for ===
 	    			for(index1 = 0;  index1 < $scope.appConfig.length; index1 += 1) {
