@@ -12,7 +12,7 @@
 			{key:"from",displayName:"From Station",placeholder:"From Station",control:"input",type:"text",id:"jpform:fromStation",name:"jpform:fromStation"},
 			{key:"to",displayName:"To Station",placeholder:"To Station",control:"input",type:"text",id:"jpform:toStation",name:"jpform:toStation"},
 			{key:"date",displayName:"Journey Date",placeholder:"Journey Date",control:"input",type:"date",id:"jpform:journeyDateInputDate",name:"jpform:journeyDateInputDate"},
-			{key:"ticketType", displayName:"Ticket Type", control:"select",id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"},{value:"foo1",label:"foo2"}]}
+			{key:"ticketType", displayName:"Ticket Type", control:"select",id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}]}
 		];
 		$scope.saveTravelPlan = function(){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
