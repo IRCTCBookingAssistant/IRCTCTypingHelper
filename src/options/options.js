@@ -21,7 +21,8 @@
 	    			for(index1 = 0;  index1 < appConfig.length; index1 += 1) {
     					if(appConfig[index1].control === "select") {
     						for(index2 = 0; index2 < appConfig[index1].options.length; index2 += 1) {
-    							if(travelPlan[appConfig[index1].key].val.value === appConfig[index1].options[index2].value) {
+    							//TBD Looks like angular bug. Fix it..
+    							if(angular.equals(travelPlan[appConfig[index1].key].val, appConfig[index1].options[index2])) {
     								travelPlan[appConfig[index1].key].val = appConfig[index1].options[index2];
     								break;
     							}
