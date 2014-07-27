@@ -12,8 +12,14 @@
         <div class="row" ng-if="item.control === 'input'">
           <div class="col-md-4">{{item.displayName}}</div>
           <div class="col-md-8">
-            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val">{{travelPlan[item.key].val}}
+            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val" />{{travelPlan[item.key].val}} 
             <span ng-if="item.type === 'date'">{{toDayString(travelPlan[item.key].val)}}</span>
+          </div>
+        </div>
+        <div class="row" ng-if="item.control === 'typeahead'">
+          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-8">
+            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val" typeahead="station for station in stationName | filter:$viewValue | limitTo:8" />{{travelPlan[item.key].val}} 
           </div>
         </div>
         <div class="row" ng-if="item.control === 'select'">
@@ -31,5 +37,7 @@
     </div>
   </body>
   <script src="/libs/angularjs1.2.19/angular.js"></script>
+  <script src="/libs/angularui/ui-bootstrap-tpls-0.11.0.js"></script>
+  <script src="/options/stationlistservlet.js"></script>
   <script src="/options/options.js"></script>
 </html>

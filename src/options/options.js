@@ -1,6 +1,6 @@
-;(function(angular,chrome,undefined) {
+;(function(angular,chrome) {
 	'use strict';
-	angular.module("optionsApp",[])
+	angular.module("optionsApp", ['ui.bootstrap'])
 	.controller("optionsCtrl",["$scope","$q","$filter",function($scope,$q,$filter) {
 		$scope.toDayString = function(date){
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -31,6 +31,7 @@
 	    			}
 	    			$scope.travelPlan = travelPlan;
 	    			$scope.appConfig = appConfig;
+	    			$scope.stationName = stationName;
 	    			$scope.$apply();
     		});
 	    };
