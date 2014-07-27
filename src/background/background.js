@@ -39,6 +39,26 @@
            ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
         };
         
+        var appConfig = [
+            {key:"userid", displayName:"User Id",placeholder:"User Id",control:"input",type:"text",
+                id:"usernameId",name:"j_username",url:"/eticketing/loginHome.jsf"},
+            {key:"pwd",displayName:"Password",placeholder:"Password",control:"input",type:"password",
+                name:"j_password",url:"/eticketing/loginHome.jsf"},
+            {key:"from",displayName:"From Station",placeholder:"From Station",control:"input",type:"text",
+                name:"jpform:fromStation",url:"/eticketing/home"},
+            {key:"to",displayName:"To Station",placeholder:"To Station",control:"input",type:"text",
+                name:"jpform:toStation",url:"/eticketing/home"},
+            {key:"date",displayName:"Journey Date",placeholder:"Journey Date",control:"input",type:"date",
+                name:"jpform:journeyDateInputDate",url:"/eticketing/home"},
+            {key:"ticketType", displayName:"Ticket Type", control:"select",
+                id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}],url:"/eticketing/home12"}
+        ];
+
+        var ctrlMap = [
+            {url:"/eticketing/loginHome.jsf",id:"loginFormId"},
+            {url:"/eticketing/home",id:"jpform"}
+        ];
+        
         switch(request.method)
         {
             case "saveTravelPlan" :
@@ -50,7 +70,7 @@
             {
                 getData("travelplan",function(data){
                     var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
-                    sendResponse(travelPlan);
+                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'ctrlMap':ctrlMap});
                 });
                 break;
             }

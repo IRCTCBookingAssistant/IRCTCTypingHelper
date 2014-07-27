@@ -6,14 +6,6 @@
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			return weekday[(new Date(date)).getDay()];
 		};
-		$scope.appConfig = [
-			{key:"userid", displayName:"User Id",placeholder:"User Id",control:"input",type:"text",id:"usernameId",name:"j_username"},
-			{key:"pwd",displayName:"Password",placeholder:"Password",control:"input",type:"password",id:"",name:"j_password"},
-			{key:"from",displayName:"From Station",placeholder:"From Station",control:"input",type:"text",id:"jpform:fromStation",name:"jpform:fromStation"},
-			{key:"to",displayName:"To Station",placeholder:"To Station",control:"input",type:"text",id:"jpform:toStation",name:"jpform:toStation"},
-			{key:"date",displayName:"Journey Date",placeholder:"Journey Date",control:"input",type:"date",id:"jpform:journeyDateInputDate",name:"jpform:journeyDateInputDate"},
-			{key:"ticketType", displayName:"Ticket Type", control:"select",id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}]}
-		];
 		$scope.saveTravelPlan = function(){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
 	           data:$scope.travelPlan}, 
@@ -22,20 +14,22 @@
 	    $scope.getTravelPlan = function(){
 	    	chrome.extension.sendRequest({method:"getTravelPlan"},
 	    		function(response){
-	    			var travelPlan = response;
+	    			var travelPlan = response.travelPlan;
+	    			var appConfig = response.appConfig;
 	    			var index1, index2;
 	    			//Fix select option objects for ===
-	    			for(index1 = 0;  index1 < $scope.appConfig.length; index1 += 1) {
-    					if($scope.appConfig[index1].control === "select") {
-    						for(index2 = 0; index2 < $scope.appConfig[index1].options.length; index2 += 1) {
-    							if(travelPlan[$scope.appConfig[index1].key].val.value === $scope.appConfig[index1].options[index2].value) {
-    								travelPlan[$scope.appConfig[index1].key].val = $scope.appConfig[index1].options[index2];
+	    			for(index1 = 0;  index1 < appConfig.length; index1 += 1) {
+    					if(appConfig[index1].control === "select") {
+    						for(index2 = 0; index2 < appConfig[index1].options.length; index2 += 1) {
+    							if(travelPlan[appConfig[index1].key].val.value === appConfig[index1].options[index2].value) {
+    								travelPlan[appConfig[index1].key].val = appConfig[index1].options[index2];
     								break;
     							}
     						}
     					}
 	    			}
 	    			$scope.travelPlan = travelPlan;
+	    			$scope.appConfig = appConfig;
 	    			$scope.$apply();
     		});
 	    };
