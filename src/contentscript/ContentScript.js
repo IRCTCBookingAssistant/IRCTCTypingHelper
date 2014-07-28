@@ -20,11 +20,20 @@
 				}
 			};
 
+			var toTravelDate = function(dateStr) {
+	        	var dateVal = new Date(dateStr);
+	        	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	        	return (String(dateVal.getDate() + 100).slice(1) + "-" + months[dateVal.getMonth()] + "-" + dateVal.getFullYear());
+	        };
+
 			for(index1 = 0; index1 < ctrlMap.length; index1 += 1) {
 				assignAttrib(ctrlMap[index1],"ng-controller","pageCtrl");
 			}
 
 			for(index1 = 0; index1 < appConfig.length; index1 += 1) {
+				if(appConfig[index1].control === 'input' && appConfig[index1].type === 'date') {
+					travelPlan[appConfig[index1].key].val = toTravelDate(travelPlan[appConfig[index1].key].val);
+				}
 				assignAttrib(appConfig[index1],"ng-model","travelPlan['" + appConfig[index1].key + "'].val");
 			}
 
