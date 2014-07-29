@@ -5,9 +5,10 @@
 			var travelPlan = response.travelPlan;
 			var appConfig = response.appConfig;
 			var ctrlMap = response.ctrlMap;
+			var pageDriver = response.pageDriver;
 			var index1;
 
-			var assignAttrib = function(targetKey, attrName, attrVal) {
+			var findTarget = function(targetKey, callback) {
 				var target;
 				if(location.pathname === targetKey.url) {
 					if(angular.isDefined(targetKey.id)) {
@@ -16,8 +17,15 @@
 					else {
 						target = $("input[name='" + targetKey.name + "']");
 					}
-					target.attr(attrName, attrVal); 
+					callback(target);
 				}
+				return target;
+			};
+
+			var assignAttrib = function(targetKey, attrName, attrVal) {
+				findTarget(targetKey, function(target) {
+					target.attr(attrName, attrVal);
+				});
 			};
 
 			var toTravelDate = function(dateStr) {
@@ -42,5 +50,12 @@
 			      $scope.travelPlan = travelPlan;
 			  });
 		    angular.bootstrap(document, ['booking']);
+
+		    // move to next form
+		    for(index1=0; index1 < pageDriver.length; index1 += 1) {
+		    	findTarget(pageDriver[index1], function(target){
+		    		target.click();
+		    	});
+		    }
 		});
 })(angular,chrome,jQuery);

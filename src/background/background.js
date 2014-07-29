@@ -60,6 +60,10 @@
             {url:"/eticketing/home",id:"jpform"}
         ];
         
+        var pageDriver = [
+            {url:"/eticketing/home",name:"jpform:jpsubmit"}
+        ];
+
         switch(request.method)
         {
             case "saveTravelPlan" :
@@ -71,7 +75,7 @@
             {
                 getData("travelplan",function(data){
                     var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
-                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'ctrlMap':ctrlMap});
+                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'ctrlMap':ctrlMap, 'pageDriver':pageDriver});
                 });
                 break;
             }
