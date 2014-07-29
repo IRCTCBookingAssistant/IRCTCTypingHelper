@@ -36,6 +36,7 @@
            from:{val:""},
            to:{val:""},
            date:{val: defaultDate()},
+           quota:{val:"CK"},
            ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
         };
         
@@ -49,7 +50,10 @@
             {key:"to",displayName:"To Station",placeholder:"To Station",control:"typeahead",type:"text",
                 name:"jpform:toStation",url:"/eticketing/home"},
             {key:"date",displayName:"Journey Date",placeholder:"Journey Date",control:"input",type:"date",
-                name:"jpform:journeyDateInputDate",url:"/eticketing/home"}
+                name:"jpform:journeyDateInputDate",url:"/eticketing/home"},
+            {key:"quota", displayName:"Quota",control:"radio",type:"radio", 
+                options:[{value:"GN",label:"GENERAL"},{value:"LD",label:"LADIES"},{value:"CK",label:"TATKAL"}],
+                name:"quota",url:"/eticketing/mainpage.jsf"}
             //,
             //{key:"ticketType", displayName:"Ticket Type", control:"select",
             //    id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}],url:"/eticketing/home12"}

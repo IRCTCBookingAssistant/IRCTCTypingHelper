@@ -29,6 +29,15 @@
             </select>{{travelPlan[item.key].val}}   {{item.options}}   {{travelPlan[item.key].val === item.options[0] }} {{item.options.indexOf(travelPlan[item.key].val)}}     
           </div>
         </div>
+        <div class="row" ng-if="item.control === 'radio'">
+          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-8">
+            <div ng-repeat="rdBtn in item.options">
+              <input type="{{item.type}}" ng-model="travelPlan[item.key].val" ng-value="rdBtn.value" name="{{item.key}}"/>{{rdBtn.label}} &emsp;
+            </div>
+            {{travelPlan[item.key].val}} 
+          </div>
+        </div>
       </div>
       <div class="row">
         <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
