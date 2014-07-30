@@ -61,7 +61,8 @@
 
         var ctrlMap = [
             {url:"/eticketing/loginHome.jsf",id:"loginFormId"},
-            {url:"/eticketing/home",id:"jpform"}
+            {url:"/eticketing/home",id:"jpform"},
+            {url:"/eticketing/mainpage.jsf",id:"avlAndFareForm"}
         ];
         
         var pageDriver = [
