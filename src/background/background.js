@@ -37,7 +37,9 @@
            to:{val:""},
            date:{val: defaultDate()},
            quota:{val:"CK"},
-           ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
+           trainNum:{val:""}
+           //,
+           //ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
         };
         
         var appConfig = [
@@ -53,7 +55,9 @@
                 name:"jpform:journeyDateInputDate",url:"/eticketing/home"},
             {key:"quota", displayName:"Quota",control:"radio",type:"radio", 
                 options:[{value:"GN",label:"GENERAL"},{value:"LD",label:"LADIES"},{value:"CK",label:"TATKAL"}],
-                name:"quota",url:"/eticketing/mainpage.jsf"}
+                name:"quota",url:"/eticketing/mainpage.jsf"},
+            {key:"trainNum", displayName:"Train Number",placeholder:"Train Number",control:"input",type:"number",
+                url:"fake"}
             //,
             //{key:"ticketType", displayName:"Ticket Type", control:"select",
             //    id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}],url:"/eticketing/home12"}
@@ -66,7 +70,8 @@
         ];
         
         var pageDriver = [
-            {url:"/eticketing/home",name:"jpform:jpsubmit"}
+            {url:"/eticketing/home",name:"jpform:jpsubmit"},
+            {url:"/eticketing/mainpage.jsf",searchCallback:"findTrain"}
         ];
 
         switch(request.method)

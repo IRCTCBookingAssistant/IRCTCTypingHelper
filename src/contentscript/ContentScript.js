@@ -8,14 +8,36 @@
 			var pageDriver = response.pageDriver;
 			var index1;
 
+			var findTrainSearch = function() {
+                var allTrains = $("#avlAndFareForm").find("a");
+                var index1;
+                var target;
+                for(index1 = 0; index1 < allTrains.length; index1 += 1 ) {
+                    // availFareEnq(this,'12051','Wed Jul 30 00:00:00 IST 2014','CC','DR','MAO',true)
+                    if($(allTrains[index1]).attr("onclick").search("availFareEnq[(]this,'"+travelPlan.trainNum.val+"'" ) !== -1) {
+                        target = allTrains[index1];
+                        break;
+                    }
+                }
+                if(angular.isUndefined(target)) {
+                    alert("Train Not Found. Please verify the travel plan.");
+                }
+                return target;
+            };
+
 			var findTarget = function(targetKey, callback) {
 				var target;
 				if(location.pathname === targetKey.url) {
 					if(angular.isDefined(targetKey.id)) {
 						target = $("#"+targetKey.id);
 					}
-					else {
+					else  if(angular.isDefined(targetKey.name)){
 						target = $("input[name='" + targetKey.name + "']");
+					}
+					else if(angular.isDefined(targetKey.searchCallback)) {
+						if(targetKey.searchCallback === "findTrain") {
+							target = findTrainSearch();
+						}
 					}
 					callback(target);
 				}

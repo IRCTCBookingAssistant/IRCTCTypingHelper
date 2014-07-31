@@ -6,6 +6,7 @@
   "globals": {
   	"angular": true,
   	"chrome": true,
-  	"stationName": true
+  	"stationName": true,
+  	"alert":true
   }
 }
