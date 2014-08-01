@@ -8,13 +8,22 @@
 			var pageDriver = response.pageDriver;
 			var index1;
 
+			var getDateInSearchFormat = function() {
+				var d = new Date(travelPlan.date.val);
+				var day = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+			 	var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+				return day[d.getDay()] + " " + month[d.getMonth()] + " " + String(d.getDate() + 100).slice(1) + 
+							" 00:00:00 IST " + d.getFullYear();
+			};
+
 			var findTrainSearch = function() {
                 var allTrains = $("#avlAndFareForm").find("a");
                 var index1;
                 var target;
+                var searchExpression = "availFareEnq[(]this,'"+travelPlan.trainNum.val+"','" + 
+                    	getDateInSearchFormat() + "','"+travelPlan.class.val +"','";
                 for(index1 = 0; index1 < allTrains.length; index1 += 1 ) {
-                    // availFareEnq(this,'12051','Wed Jul 30 00:00:00 IST 2014','CC','DR','MAO',true)
-                    if($(allTrains[index1]).attr("onclick").search("availFareEnq[(]this,'"+travelPlan.trainNum.val+"'" ) !== -1) {
+                    if($(allTrains[index1]).attr("onclick").search(searchExpression) !== -1) {
                         target = allTrains[index1];
                         break;
                     }
