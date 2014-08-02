@@ -68,16 +68,7 @@
             //    id:"jpform:ticketType",name:"jpform:ticketType",options:[{value:"E_TICKET",label:"E-ticket"}],url:"/eticketing/home12"}
         ];
 
-        var ctrlMap = [
-            {url:"/eticketing/loginHome.jsf",id:"loginFormId"},
-            {url:"/eticketing/home",id:"jpform"},
-            {url:"/eticketing/mainpage.jsf",id:"avlAndFareForm"}
-        ];
-        
-        var pageDriver = [
-            {url:"/eticketing/home",name:"jpform:jpsubmit"},
-            {url:"/eticketing/mainpage.jsf",searchCallback:"findTrain"}
-        ];
+       
 
         switch(request.method)
         {
@@ -90,7 +81,7 @@
             {
                 getData("travelplan",function(data){
                     var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
-                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'ctrlMap':ctrlMap, 'pageDriver':pageDriver});
+                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig});
                 });
                 break;
             }

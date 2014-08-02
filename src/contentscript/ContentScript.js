@@ -4,11 +4,15 @@
 		function(response){
 			var travelPlan = response.travelPlan;
 			var appConfig = response.appConfig;
-			var ctrlMap = response.ctrlMap;
-			var pageDriver = response.pageDriver;
 			var index1;
 
-			var getDateInSearchFormat = function() {
+			 var ctrlMap = [
+	            {url:"/eticketing/loginHome.jsf",id:"loginFormId"},
+	            {url:"/eticketing/home",id:"jpform"},
+	            {url:"/eticketing/mainpage.jsf",id:"avlAndFareForm"}
+	        ];
+	        
+	        var getDateInSearchFormat = function() {
 				var d = new Date(travelPlan.date.val);
 				var day = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 			 	var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -34,6 +38,11 @@
                 return target;
             };
 
+			var pageDriver = [
+	            {url:"/eticketing/home",name:"jpform:jpsubmit"},
+	            {url:"/eticketing/mainpage.jsf",searchCallback:findTrainSearch}
+	        ];
+
 			var findTarget = function(targetKey, callback) {
 				var target;
 				if(location.pathname === targetKey.url) {
@@ -43,10 +52,8 @@
 					else  if(angular.isDefined(targetKey.name)){
 						target = $("input[name='" + targetKey.name + "']");
 					}
-					else if(angular.isDefined(targetKey.searchCallback)) {
-						if(targetKey.searchCallback === "findTrain") {
-							target = findTrainSearch();
-						}
+					else if(angular.isFunction(targetKey.searchCallback)) {
+						target = targetKey.searchCallback();
 					}
 					callback(target);
 				}
