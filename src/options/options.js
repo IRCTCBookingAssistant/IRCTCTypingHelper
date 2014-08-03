@@ -6,32 +6,35 @@
 			var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 			return weekday[(new Date(date)).getDay()];
 		};
-		$scope.saveTravelPlan = function(){
-	        chrome.extension.sendRequest({method: "saveTravelPlan", 
-	           data:$scope.travelPlan}, 
-	           function(response) {});
+		$scope.addBookingPreference = function() {
+       		$scope.travelPlan.preference.push({trainNum:"", class:""});
         };
-        $scope.addBookingPreference = function() {
-       		$scope.travelPlan.preference.val.push({trainNum:{val:""}, class:{val:""}});
-        };
-	    $scope.deleteBookingPreference = function() {
-        	if($scope.travelPlan.preference.val.length > 1) {
-	        	$scope.travelPlan.preference.val.pop();
+	    $scope.deleteBookingPreference = function(index) {
+        	if($scope.travelPlan.preference.length > 1 && index >= 0 && index < $scope.travelPlan.preference.length) {
+	        	$scope.travelPlan.preference.splice(index,1);
         	}
         };
-	    $scope.getTravelPlan = function(){
-	    	chrome.extension.sendRequest({method:"getTravelPlan"},
+	    $scope.saveTravelPlan = function(){
+	        chrome.extension.sendRequest({method: "saveTravelPlan", 
+	           data:$scope.travelPlan}, 
+	           function(response) {
+       			$scope.getTravelPlan();
+	           });
+        };
+        $scope.getTravelPlan = function(){
+        	chrome.extension.sendRequest({method:"getTravelPlan"},
 	    		function(response){
 	    			var travelPlan = response.travelPlan;
 	    			var appConfig = response.appConfig;
+	    			var travelPlanList = response.travelPlanList;
 	    			var index1, index2;
 	    			//Fix select option objects for ===
 	    			for(index1 = 0;  index1 < appConfig.length; index1 += 1) {
     					if(appConfig[index1].control === "select") {
     						for(index2 = 0; index2 < appConfig[index1].options.length; index2 += 1) {
     							//TBD Looks like angular bug. Fix it..
-    							if(angular.equals(travelPlan[appConfig[index1].key].val, appConfig[index1].options[index2])) {
-    								travelPlan[appConfig[index1].key].val = appConfig[index1].options[index2];
+    							if(angular.equals(travelPlan[appConfig[index1].key], appConfig[index1].options[index2])) {
+    								travelPlan[appConfig[index1].key] = appConfig[index1].options[index2];
     								break;
     							}
     						}
@@ -39,6 +42,7 @@
 	    			}
 	    			$scope.travelPlan = travelPlan;
 	    			$scope.appConfig = appConfig;
+	    			$scope.travelPlanList = travelPlanList;
 	    			$scope.stationName = stationName;
 	    			$scope.$apply();
     		});

@@ -7,7 +7,7 @@
     chrome.extension.onRequest.addListener(
       function(request, sender, sendResponse) {
         var storageArea = chrome.storage.sync;
-        
+
         var saveData = function(key, value) {
             var temp = {};
             temp[key] = value;
@@ -19,6 +19,10 @@
                 callback(data[key]);
             });
         };
+
+        var removeData = function(key, callback){
+            storageArea.remove(key,callback);
+        };
         
         var defaultDate = function() {
             var now = new Date();
@@ -29,21 +33,29 @@
                 nextday.getDate());
             return formattedDate.slice(0,4) + '-' + formattedDate.slice(4,6) + '-' + formattedDate.slice(6);
         };
+
+        var defaultPlanId = function() {
+            return "ID"+Math.floor((Math.random()*100000)+1);
+        };
         
         var defaultTravelPlan = {
-           userid: {val:""},
-           pwd: {val:""},
-           from:{val:""},
-           to:{val:""},
-           date:{val: defaultDate()},
-           quota:{val:"CK"},
-           preference: {val: [{trainNum:{val:""}, class:{val:""}}]}
+           id: defaultPlanId(),
+           name: "",
+           userid: "",
+           pwd: "",
+           from:"",
+           to:"",
+           date:defaultDate(),
+           quota:"CK",
+           preference: [{trainNum:"", class:""}]
            //,
-           //ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
+           //ticketType:{value:"E_TICKET",label:"E-ticket"}
         };
         
         var appConfig = [
-            {key:"userid", displayName:"User Id",placeholder:"User Id",control:"input",type:"text",
+            {key:"id", displayName:"Profile Id",control:"span",url:"fake"},
+            {key:"name", displayName:"Profile Name",placeholder:"Profile Name",control:"input",type:"text",url:"fake"},
+            {key:"userid", displayName:"User Name",placeholder:"User Name",control:"input",type:"text",
                 id:"usernameId",name:"j_username",url:"/eticketing/loginHome.jsf"},
             {key:"pwd",displayName:"Password",placeholder:"Password",control:"input",type:"password",
                 name:"j_password",url:"/eticketing/loginHome.jsf"},
@@ -71,20 +83,61 @@
         ];
 
        
+       var defaultTravelPlanList = {list:[],currentTravelPlan:{id:"",name:""}};
+
+       var getOrCreateTravelPlanHelper = function(createNew) {
+            getData("travelplanlist",function(data) {
+                    var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
+                    var dataKey;
+                    if(createNew) {
+                        dataKey = "fake";
+                    }
+                    else {
+                        dataKey = "travelplan"+travelPlanList.currentTravelPlan.id;
+                    }
+                    getData(dataKey,function(data){
+                        var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
+                        sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'travelPlanList':travelPlanList});
+                    });
+                });
+       };
 
         switch(request.method)
         {
             case "saveTravelPlan" :
             {
-                saveData("travelplan",request.data);
+                var travelPlan = request.data;
+                getData("travelplanlist",function(data){
+                    var index1;
+                    var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
+                    var found = false;
+                    
+                    for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
+                    {
+                        if(travelPlanList.list[index1].id === travelPlan.id) {
+                            travelPlanList.list[index1].name = travelPlan.name;
+                            travelPlanList.currentTravelPlan = travelPlanList.list[index1];
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(!found) {
+                        travelPlanList.list.push({id:travelPlan.id,name:travelPlan.name});
+                        travelPlanList.currentTravelPlan = {id:travelPlan.id,name:travelPlan.name}; 
+                    }
+
+                    saveData("travelplanlist",travelPlanList);
+                    saveData("travelplan"+travelPlan.id,travelPlan);
+                    saveData("travelplan",travelPlan);
+                    sendResponse({}); 
+                });
                 break;
             }
             case "getTravelPlan" :
             {
-                getData("travelplan",function(data){
-                    var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
-                    sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig});
-                });
+                //storageArea.clear();
+                getOrCreateTravelPlanHelper(false);
                 break;
             }
             default:
