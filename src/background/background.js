@@ -37,8 +37,7 @@
            to:{val:""},
            date:{val: defaultDate()},
            quota:{val:"CK"},
-           trainNum:{val:""},
-           class: {val:"3A"}
+           preference: {val: [{trainNum:{val:""}, class:{val:""}}]}
            //,
            //ticketType:{val:{value:"E_TICKET",label:"E-ticket"}}
         };
@@ -57,11 +56,14 @@
             {key:"quota", displayName:"Quota",control:"radio",type:"radio", 
                 options:[{value:"GN",label:"GENERAL"},{value:"LD",label:"LADIES"},{value:"CK",label:"TATKAL"}],
                 name:"quota",url:"/eticketing/mainpage.jsf"},
-            {key:"trainNum", displayName:"Train Number",placeholder:"Train Number",control:"input",type:"number",
+            {key:"preference", displayName: "Booking Preference", control:"trainBookingPreference", url:"fake", 
+                addBtnCaption: "Add New Preference", deleteBtnCaption: "Delete",
+                trainNum:{key:"trainNum", displayName:"Train Number",placeholder:"Train Number",control:"input",type:"number",
                 url:"fake"},
-            {key:"class", displayName:"Class",control:"radio",type:"radio",
-                options:[{value:"1A",label:"1A"},{value:"2A",label:"2A"},{value:"3A",label:"3A"},
-                {value:"SL",label:"SL"},{value:"CC",label:"CC"},{value:"2S",label:"2S"}]
+                class:{key:"class", displayName:"Class",control:"radio",type:"radio",
+                    options:[{value:"1A",label:"1A"},{value:"2A",label:"2A"},{value:"3A",label:"3A"},
+                    {value:"SL",label:"SL"},{value:"CC",label:"CC"},{value:"2S",label:"2S"}]
+                }
             }
             //,
             //{key:"ticketType", displayName:"Ticket Type", control:"select",

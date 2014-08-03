@@ -12,6 +12,7 @@
 	            {url:"/eticketing/mainpage.jsf",id:"avlAndFareForm"}
 	        ];
 	        
+	        /*
 	        var getDateInSearchFormat = function() {
 				var d = new Date(travelPlan.date.val);
 				var day = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -20,7 +21,7 @@
 							" 00:00:00 IST " + d.getFullYear();
 			};
 
-			var findTrainSearch = function() {
+			var findTrainAndClass = function() {
                 var allTrains = $("#avlAndFareForm").find("a");
                 var index1;
                 var target;
@@ -38,10 +39,39 @@
                 return target;
             };
 
+            var findSeat = function() {
+            	var searchExpression = travelPlan.trainNum.val + "-" + travelPlan.class + "-" + travelPlan.quota;
+            	var isUiLoaded = false;
+            	var index1;
+            	var target;
+            	if($("#avlAndFareForm").find("#tabul").find("li.ctab").text().serach(searchExpression) !== -1) {
+            		isUiLoaded = true;
+            	}
+            	if(isUiLoaded) {
+	                var allLinks = $("#avlAndFareForm").find("a");
+					var d = new Date(travelPlan.date.val);
+	                searchExpression = "jpBook[(]this,'" + travelPlan.trainNum.val + "','[A-Z',]+','" + d.getDate() + "-" + 
+	                	(d.getMonth() + 1) + "-" + d.getFullYear() + "','2S','GN',1[)];";
+	                for(index1 = 0; index1 < allLinks.length; index1 += 1) {
+	                	if($(allLinks[index1]).attr("onclick").search(searchExpression) !== -1) {
+	                		target = allLinks[index1];
+	                		break;
+	                	}
+	                }
+            	}
+            	return target;
+            };
+
+            var clickCallback = function(target){
+	    		target.click();
+	    	};
+
 			var pageDriver = [
-	            {url:"/eticketing/home",name:"jpform:jpsubmit"},
-	            {url:"/eticketing/mainpage.jsf",searchCallback:findTrainSearch}
+	            {url:"/eticketing/home", name:"jpform:jpsubmit", eventCallback:clickCallback},
+	            {url:"/eticketing/mainpage.jsf", searchCallback:findTrainAndClass, eventCallback:clickCallback},
+	            {url:"/eticketing/mainpage.jsf", searchCallback:findSeat, eventCallback:clickCallback}
 	        ];
+	        */
 
 			var findTarget = function(targetKey, callback) {
 				var target;
@@ -90,10 +120,9 @@
 		    angular.bootstrap(document, ['booking']);
 
 		    // move to next form
-		    for(index1=0; index1 < pageDriver.length; index1 += 1) {
-		    	findTarget(pageDriver[index1], function(target){
-		    		target.click();
-		    	});
-		    }
+		    //
+		    //for(index1=0; index1 < pageDriver.length; index1 += 1) {
+		    //	findTarget(pageDriver[index1], pageDriver[index1].eventCallback);
+		    //}
 		});
 })(angular,chrome,jQuery);

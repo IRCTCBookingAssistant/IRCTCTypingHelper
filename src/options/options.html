@@ -1,40 +1,58 @@
 <!doctype html>
-<html ng-app="optionsApp">
+<html ng-app="optionsApp" ng-csp>
   <head>
     <title>IRCTC Booking Assistant Options</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/libs/bootstrap-3.2.0/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/libs/bootstrap-3.2.0/css/bootstrap-theme.css" rel="stylesheet" media="screen">
   </head>
   <body>
     <div class="container" ng-controller="optionsCtrl">
       <h1>IRCTC Booking Assistant</h1>
       <div ng-repeat="item in appConfig">
         <div class="row" ng-if="item.control === 'input'">
-          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-4">{{item.displayName}}:</div>
           <div class="col-md-8">
             <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val" />{{travelPlan[item.key].val}} 
             <span ng-if="item.type === 'date'">{{toDayString(travelPlan[item.key].val)}}</span>
           </div>
         </div>
         <div class="row" ng-if="item.control === 'typeahead'">
-          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-4">{{item.displayName}}:</div>
           <div class="col-md-8">
             <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key].val" typeahead="station for station in stationName | filter:$viewValue | limitTo:8" />{{travelPlan[item.key].val}} 
           </div>
         </div>
         <div class="row" ng-if="item.control === 'select'">
-          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-4">{{item.displayName}}:</div>
           <div class="col-md-8">
             <select ng-model="travelPlan[item.key].val" ng-options="opt.label for opt in item.options">
             </select>{{travelPlan[item.key].val}}   {{item.options}}   {{travelPlan[item.key].val === item.options[0] }} {{item.options.indexOf(travelPlan[item.key].val)}}     
           </div>
         </div>
         <div class="row" ng-if="item.control === 'radio'">
-          <div class="col-md-4">{{item.displayName}}</div>
+          <div class="col-md-4">{{item.displayName}}:</div>
           <div class="col-md-8">
-            <div ng-repeat="rdBtn in item.options">
+            <span ng-repeat="rdBtn in item.options">
               <input type="{{item.type}}" ng-model="travelPlan[item.key].val" ng-value="rdBtn.value" name="{{item.key}}"/>{{rdBtn.label}} &emsp;
+            </span>
+            {{travelPlan[item.key].val}} 
+          </div>
+        </div>
+        <div class="row" ng-if="item.control === 'trainBookingPreference'">
+          <div ng-repeat="choice in travelPlan.preference.val" ng-init="pref = $index + 1">
+            <div class="col-md-4">{{item.displayName}} {{$index + 1}}:</div>
+            <div class="col-md-8">{{item.trainNum.displayName}}
+               <input placeholder="{{item.trainNum.placeholder}}" type="{{item.trainNum.type}}" ng-model="choice.trainNum.val" />&emsp;&emsp;
+               {{item.class.displayName}}
+                <span ng-repeat="rdBtn in item.class.options">
+                  <input type="{{item.class.type}}" ng-model="choice.class.val" ng-value="rdBtn.value" name="{{item.class.key + pref}}"/>{{rdBtn.label}} &emsp;
+                </span>
+               <button type="button" class="btn btn-default" ng-click="deleteBookingPreference()" ng-disabled="travelPlan.preference.val.length <= 1">{{item.deleteBtnCaption}}</button>
             </div>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-8"><button type="button" class="btn btn-default" ng-click="addBookingPreference()">{{item.addBtnCaption}}</button>
             {{travelPlan[item.key].val}} 
           </div>
         </div>

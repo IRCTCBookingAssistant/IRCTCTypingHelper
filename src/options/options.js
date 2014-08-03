@@ -11,6 +11,14 @@
 	           data:$scope.travelPlan}, 
 	           function(response) {});
         };
+        $scope.addBookingPreference = function() {
+       		$scope.travelPlan.preference.val.push({trainNum:{val:""}, class:{val:""}});
+        };
+	    $scope.deleteBookingPreference = function() {
+        	if($scope.travelPlan.preference.val.length > 1) {
+	        	$scope.travelPlan.preference.val.pop();
+        	}
+        };
 	    $scope.getTravelPlan = function(){
 	    	chrome.extension.sendRequest({method:"getTravelPlan"},
 	    		function(response){
