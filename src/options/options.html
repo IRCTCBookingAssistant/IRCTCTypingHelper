@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-md-4">List of Travel Plans:</div>
         <div class="col-md-8">
-          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.name for opt in travelPlanList.list" ></select>
+          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan()"></select>
         </div>
       </div>
       <div class="row">&nbsp;</div>
@@ -71,12 +71,15 @@
         </div>
       </div>
       <div class="row">
-        <button class="btn btn-default" ng-click="getTravelPlan()">New</button>
+        <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
         <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
-        <button class="btn btn-default" ng-click="getTravelPlan()">Cancel</button>
+        <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
       </div>
       {{travelPlanList | json}} <br/>
       {{travelPlan | json}}
+      <div class="row">
+        <button class="btn btn-danger" ng-click="resetAll()">Reset All</button>
+      </div>
     </div>
   </body>
   <script src="/libs/angularjs1.2.19/angular.js"></script>

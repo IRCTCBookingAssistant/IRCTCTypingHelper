@@ -24,6 +24,10 @@
             storageArea.remove(key,callback);
         };
         
+        var resetAll = function(callback) {
+            storageArea.clear(callback);
+        };
+
         var defaultDate = function() {
             var now = new Date();
             var nextday = new Date(now.getFullYear(), now.getMonth(), 
@@ -83,10 +87,60 @@
         ];
 
        
-       var defaultTravelPlanList = {list:[],currentTravelPlan:{id:"",name:""}};
+        var defaultTravelPlanList = {list:[],currentTravelPlan:{id:"",name:""}};
 
-       var getOrCreateTravelPlanHelper = function(createNew) {
-            getData("travelplanlist",function(data) {
+        switch(request.method)
+        {
+            case "saveTravelPlan" :
+            {
+                var travelPlan = request.data;
+                var currentTravelPlan = request.currentTravelPlan;
+                getData("travelplanlist",function(data){
+                    var index1;
+                    var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
+                    var travelPlanFound = false;
+                    var currentTravelPlanFound = false;
+                    
+                    //check if travel plan already exist
+                    for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
+                    {
+                        if(travelPlanList.list[index1].id === travelPlan.id) {
+                            //Sync the updated name
+                            travelPlanList.list[index1].name = travelPlan.name;
+                            travelPlanFound = true;
+                            break;
+                        }
+                    }
+
+                    if(!travelPlanFound) {
+                        travelPlanList.list.push({id:travelPlan.id,name:travelPlan.name});
+                    }
+
+                    //check if proposed currentTravelPlan exist.
+                    for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
+                    {
+                        if(travelPlanList.list[index1].id === currentTravelPlan.id) {
+                            //This because of linked items creats issue in storage api.
+                            travelPlanList.currentTravelPlan = {id:travelPlanList.list[index1].id, name: travelPlanList.list[index1].name};
+                            currentTravelPlanFound = true;
+                            break;
+                        }
+                    }
+
+                    if(!currentTravelPlanFound) {
+                        travelPlanList.currentTravelPlan = {id:travelPlan.id, name:travelPlan.name};
+                    }
+
+                    saveData("travelplanlist",travelPlanList);
+                    saveData("travelplan"+travelPlan.id,travelPlan);
+                    sendResponse({}); 
+                });
+                break;
+            }
+            case "getTravelPlan" :
+            {
+                var createNew = request.createNew;
+                getData("travelplanlist",function(data) {
                     var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
                     var dataKey;
                     if(createNew) {
@@ -97,47 +151,17 @@
                     }
                     getData(dataKey,function(data){
                         var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
+                        travelPlanList.currentTravelPlan = {id:travelPlan.id,name:travelPlan.name}; 
                         sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'travelPlanList':travelPlanList});
                     });
                 });
-       };
-
-        switch(request.method)
-        {
-            case "saveTravelPlan" :
-            {
-                var travelPlan = request.data;
-                getData("travelplanlist",function(data){
-                    var index1;
-                    var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
-                    var found = false;
-                    
-                    for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
-                    {
-                        if(travelPlanList.list[index1].id === travelPlan.id) {
-                            travelPlanList.list[index1].name = travelPlan.name;
-                            travelPlanList.currentTravelPlan = travelPlanList.list[index1];
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if(!found) {
-                        travelPlanList.list.push({id:travelPlan.id,name:travelPlan.name});
-                        travelPlanList.currentTravelPlan = {id:travelPlan.id,name:travelPlan.name}; 
-                    }
-
-                    saveData("travelplanlist",travelPlanList);
-                    saveData("travelplan"+travelPlan.id,travelPlan);
-                    saveData("travelplan",travelPlan);
-                    sendResponse({}); 
-                });
                 break;
             }
-            case "getTravelPlan" :
+            case "resetAll" : 
             {
-                //storageArea.clear();
-                getOrCreateTravelPlanHelper(false);
+                resetAll(function(data){
+                    sendResponse(data);
+                });
                 break;
             }
             default:

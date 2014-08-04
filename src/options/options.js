@@ -16,13 +16,13 @@
         };
 	    $scope.saveTravelPlan = function(){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
-	           data:$scope.travelPlan}, 
+	           data:$scope.travelPlan, currentTravelPlan:$scope.travelPlanList.currentTravelPlan}, 
 	           function(response) {
-       			$scope.getTravelPlan();
+   				$scope.getTravelPlan(false);
 	           });
         };
-        $scope.getTravelPlan = function(){
-        	chrome.extension.sendRequest({method:"getTravelPlan"},
+        $scope.getTravelPlan = function(createNew){
+        	chrome.extension.sendRequest({method:"getTravelPlan",createNew:createNew},
 	    		function(response){
 	    			var travelPlan = response.travelPlan;
 	    			var appConfig = response.appConfig;
@@ -40,6 +40,13 @@
     						}
     					}
 	    			}
+	    			for(index1 = 0;  index1 < travelPlanList.list.length; index1 += 1) {
+							//TBD Looks like angular bug. Fix it..
+							if(angular.equals(travelPlanList.currentTravelPlan,travelPlanList.list[index1])) {
+								travelPlanList.currentTravelPlan = travelPlanList.list[index1];
+								break;
+							}
+	    			}
 	    			$scope.travelPlan = travelPlan;
 	    			$scope.appConfig = appConfig;
 	    			$scope.travelPlanList = travelPlanList;
@@ -47,6 +54,12 @@
 	    			$scope.$apply();
     		});
 	    };
-	    $scope.getTravelPlan();
+	    $scope.resetAll = function() {
+	    	chrome.extension.sendRequest({method: "resetAll"}, 
+	           function() {
+				$scope.getTravelPlan(true);
+	           });
+	    };
+	    $scope.getTravelPlan(false);
 	}]);
 })(angular,chrome);
