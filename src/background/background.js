@@ -8,10 +8,10 @@
       function(request, sender, sendResponse) {
         var storageArea = chrome.storage.sync;
 
-        var saveData = function(key, value) {
+        var saveData = function(key, value, callback) {
             var temp = {};
             temp[key] = value;
-            storageArea.set(temp);
+            storageArea.set(temp, callback);
         };
 
         var getData = function(key, callback) {
@@ -87,7 +87,7 @@
         ];
 
        
-        var defaultTravelPlanList = {list:[],currentTravelPlan:{id:"",name:""}};
+        var defaultTravelPlanList = {list:[],currentTravelPlan:""};
 
         switch(request.method)
         {
@@ -119,21 +119,48 @@
                     //check if proposed currentTravelPlan exist.
                     for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
                     {
-                        if(travelPlanList.list[index1].id === currentTravelPlan.id) {
-                            //This because of linked items creats issue in storage api.
-                            travelPlanList.currentTravelPlan = {id:travelPlanList.list[index1].id, name: travelPlanList.list[index1].name};
+                        if(travelPlanList.list[index1].id === currentTravelPlan) {
+                            travelPlanList.currentTravelPlan = travelPlanList.list[index1].id;
                             currentTravelPlanFound = true;
                             break;
                         }
                     }
 
                     if(!currentTravelPlanFound) {
-                        travelPlanList.currentTravelPlan = {id:travelPlan.id, name:travelPlan.name};
+                        travelPlanList.currentTravelPlan = travelPlan.id;
                     }
 
-                    saveData("travelplanlist",travelPlanList);
-                    saveData("travelplan"+travelPlan.id,travelPlan);
-                    sendResponse({}); 
+                    saveData("travelplanlist",travelPlanList, function() {
+                        saveData("travelplan"+travelPlan.id,travelPlan, function() {
+                            sendResponse({}); 
+                        });
+                    });
+                });
+                break;
+            }
+            case "deleteTravelPlan" :
+            {
+                var deleteTravelPlan = request.data;
+                getData("travelplanlist",function(data){
+                    var index1;
+                    var travelPlanList = $.extend(true, {}, defaultTravelPlanList, data);
+                    
+                    //check if travel plan already exist
+                    for(index1 = 0; index1 < travelPlanList.list.length; index1+=1)
+                    {
+                        if(travelPlanList.list[index1].id === deleteTravelPlan.id) {
+                            travelPlanList.list.splice(index1,1);
+                            break;
+                        }
+                    }
+
+                    travelPlanList.currentTravelPlan = travelPlanList.list[0].id;
+
+                    saveData("travelplanlist",travelPlanList, function() {
+                        removeData("travelplan"+deleteTravelPlan.id, function() {
+                            sendResponse({}); 
+                        });
+                    });
                 });
                 break;
             }
@@ -147,11 +174,11 @@
                         dataKey = "fake";
                     }
                     else {
-                        dataKey = "travelplan"+travelPlanList.currentTravelPlan.id;
+                        dataKey = "travelplan"+travelPlanList.currentTravelPlan;
                     }
                     getData(dataKey,function(data){
                         var travelPlan = $.extend(true, {}, defaultTravelPlan, data);
-                        travelPlanList.currentTravelPlan = {id:travelPlan.id,name:travelPlan.name}; 
+                        travelPlanList.currentTravelPlan = travelPlan.id; 
                         sendResponse({'travelPlan':travelPlan, 'appConfig': appConfig, 'travelPlanList':travelPlanList});
                     });
                 });

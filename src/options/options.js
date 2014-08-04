@@ -21,6 +21,13 @@
    				$scope.getTravelPlan(false);
 	           });
         };
+        $scope.deleteTravelPlan = function() {
+        	chrome.extension.sendRequest({method: "deleteTravelPlan", 
+	           data:$scope.travelPlan}, 
+	           function(response) {
+   				$scope.getTravelPlan(false);
+	           });
+        };
         $scope.getTravelPlan = function(createNew){
         	chrome.extension.sendRequest({method:"getTravelPlan",createNew:createNew},
 	    		function(response){
@@ -29,7 +36,7 @@
 	    			var travelPlanList = response.travelPlanList;
 	    			var index1, index2;
 	    			//Fix select option objects for ===
-	    			for(index1 = 0;  index1 < appConfig.length; index1 += 1) {
+	    			/*for(index1 = 0;  index1 < appConfig.length; index1 += 1) {
     					if(appConfig[index1].control === "select") {
     						for(index2 = 0; index2 < appConfig[index1].options.length; index2 += 1) {
     							//TBD Looks like angular bug. Fix it..
@@ -40,13 +47,7 @@
     						}
     					}
 	    			}
-	    			for(index1 = 0;  index1 < travelPlanList.list.length; index1 += 1) {
-							//TBD Looks like angular bug. Fix it..
-							if(angular.equals(travelPlanList.currentTravelPlan,travelPlanList.list[index1])) {
-								travelPlanList.currentTravelPlan = travelPlanList.list[index1];
-								break;
-							}
-	    			}
+	    			*/
 	    			$scope.travelPlan = travelPlan;
 	    			$scope.appConfig = appConfig;
 	    			$scope.travelPlanList = travelPlanList;
