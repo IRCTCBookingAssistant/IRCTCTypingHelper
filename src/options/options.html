@@ -8,54 +8,58 @@
   </head>
   <body>
     <div class="container" ng-controller="optionsCtrl">
-      <h1>IRCTC Booking Assistant</h1>
-      <div class="row">
-        <div class="col-md-4">List of Travel Plans:</div>
-        <div class="col-md-8">
+      <h1><img src='/libs/icons/icon128.png'>IRCTC Booking Assistant</h1>
+       <div class="row">
+        <div class="col-md-3">List of Travel Plans:</div>
+        <div class="col-md-9">
           <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan()"></select>
+          <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
+          <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
+          <button class="btn btn-default" ng-click="deleteTravelPlan()">Delete</button>
+          <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
+          <button class="btn btn-success" ng-click="startBooking()">Start Booking</button>
         </div>
       </div>
       <div class="row">&nbsp;</div>
       <div ng-repeat="item in appConfig">
          <div class="row" ng-if="item.control === 'span'">
-          <div class="col-md-4">{{item.displayName}}:</div>
-          <div class="col-md-8">
+          <div class="col-md-3">{{item.displayName}}:</div>
+          <div class="col-md-9">
             <span>{{travelPlan[item.key]}}</span>
           </div>
         </div>
         <div class="row" ng-if="item.control === 'input'">
-          <div class="col-md-4">{{item.displayName}}:</div>
-          <div class="col-md-8">
-            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key]" ng-readonly="item.readonly"/>{{travelPlan[item.key]}} 
+          <div class="col-md-3">{{item.displayName}}:</div>
+          <div class="col-md-9">
+            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key]" ng-readonly="item.readonly"/>
             <span ng-if="item.type === 'date'">{{toDayString(travelPlan[item.key])}}</span>
           </div>
         </div>
         <div class="row" ng-if="item.control === 'typeahead'">
-          <div class="col-md-4">{{item.displayName}}:</div>
-          <div class="col-md-8">
-            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key]" typeahead="station for station in stationName | filter:$viewValue | limitTo:8" />{{travelPlan[item.key]}} 
+          <div class="col-md-3">{{item.displayName}}:</div>
+          <div class="col-md-9">
+            <input placeholder="{{item.placeholder}}" type="{{item.type}}" ng-model="travelPlan[item.key]" typeahead="station for station in stationName | filter:$viewValue | limitTo:8" />
           </div>
         </div>
         <div class="row" ng-if="item.control === 'select'">
-          <div class="col-md-4">{{item.displayName}}:</div>
-          <div class="col-md-8">
+          <div class="col-md-3">{{item.displayName}}:</div>
+          <div class="col-md-9">
             <select ng-model="travelPlan[item.key]" ng-options="opt.label for opt in item.options">
             </select>{{travelPlan[item.key]}}   {{item.options}}   {{travelPlan[item.key] === item.options[0] }} {{item.options.indexOf(travelPlan[item.key])}}     
           </div>
         </div>
         <div class="row" ng-if="item.control === 'radio'">
-          <div class="col-md-4">{{item.displayName}}:</div>
-          <div class="col-md-8">
+          <div class="col-md-3">{{item.displayName}}:</div>
+          <div class="col-md-9">
             <span ng-repeat="rdBtn in item.options">
               <input type="{{item.type}}" ng-model="travelPlan[item.key]" ng-value="rdBtn.value" name="{{item.key}}"/>{{rdBtn.label}} &emsp;
             </span>
-            {{travelPlan[item.key]}} 
           </div>
         </div>
         <div class="row" ng-if="item.control === 'trainBookingPreference'">
           <div ng-repeat="choice in travelPlan.preference" ng-init="pref = $index + 1">
-            <div class="col-md-4">{{item.displayName}} {{$index + 1}}:</div>
-            <div class="col-md-8">{{item.trainNum.displayName}}
+            <div class="col-md-3">{{item.displayName}} {{$index + 1}}:</div>
+            <div class="col-md-9">{{item.trainNum.displayName}}
                <input placeholder="{{item.trainNum.placeholder}}" type="{{item.trainNum.type}}" ng-model="choice.trainNum" />&emsp;&emsp;
                {{item.class.displayName}}
                 <span ng-repeat="rdBtn in item.class.options">
@@ -64,22 +68,32 @@
                <button type="button" class="btn btn-default" ng-click="deleteBookingPreference($index)">{{item.deleteBtnCaption}}</button>
             </div>
           </div>
-          <div class="col-md-4"></div>
-          <div class="col-md-8"><button type="button" class="btn btn-default" ng-click="addBookingPreference()">{{item.addBtnCaption}}</button>
-            {{travelPlan[item.key]}} 
+          <div class="col-md-3"></div>
+          <div class="col-md-9"><button type="button" class="btn btn-default" ng-click="addBookingPreference()">{{item.addBtnCaption}}</button>
           </div>
         </div>
+        <div class="row">&nbsp;</div>
       </div>
+      <div class="row">&nbsp;</div>
       <div class="row">
-        <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
-        <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
-        <button class="btn btn-default" ng-click="deleteTravelPlan()">Delete</button>
-        <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
+        <div class="col-md-3">List of Travel Plans:</div>
+        <div class="col-md-9">
+          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan()"></select>
+          <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
+          <button class="btn btn-primary" ng-click="saveTravelPlan()">Save</button>
+          <button class="btn btn-default" ng-click="deleteTravelPlan()">Delete</button>
+          <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
+          <button class="btn btn-success" ng-click="startBooking()">Start Booking</button>
+        </div>
       </div>
       {{travelPlanList | json}} <br/>
       {{travelPlan | json}}
+      <div class="row">&nbsp;</div>
+      <div class="row">&nbsp;</div>
       <div class="row">
-        <button class="btn btn-danger" ng-click="resetAll()">Reset All</button>
+        <div class="col-md-9 col-md-offset-3">
+          <button class="btn btn-danger" ng-click="resetAll()">Reset All</button>
+        </div>
       </div>
     </div>
   </body>

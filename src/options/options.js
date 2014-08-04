@@ -61,6 +61,9 @@
 				$scope.getTravelPlan(true);
 	           });
 	    };
+	    $scope.startBooking = function() {
+	    	chrome.tabs.create({url:"https://www.irctc.co.in/"});
+	    };
 	    $scope.getTravelPlan(false);
 	}]);
 })(angular,chrome);
