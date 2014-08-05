@@ -58,7 +58,7 @@
         
         var appConfig = [
             {key:"id", displayName:"Profile Id",control:"span",url:"fake"},
-            {key:"name", displayName:"Profile Name",placeholder:"Profile Name",control:"input",type:"text",url:"fake"},
+            {key:"name", displayName:"Profile Name",placeholder:"Profile Name",control:"input",type:"text",url:"fake",required:true},
             {key:"userid", displayName:"User Name",placeholder:"User Name",control:"input",type:"text",required:true,
                 id:"usernameId",name:"j_username",url:"/eticketing/loginHome.jsf"},
             {key:"pwd",displayName:"Password",placeholder:"Password",control:"input",type:"password",required:true,
