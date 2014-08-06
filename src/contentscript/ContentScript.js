@@ -1,6 +1,6 @@
 ;(function(angular,chrome,$) {
 	'use strict';
-	chrome.extension.sendRequest({method:"getTravelPlan"},
+	chrome.extension.sendRequest({method:"getTravelPlan",createNew:false},
 		function(response){
 			var travelPlan = response.travelPlan;
 			var appConfig = response.appConfig;
@@ -108,9 +108,9 @@
 
 			for(index1 = 0; index1 < appConfig.length; index1 += 1) {
 				if(appConfig[index1].control === 'input' && appConfig[index1].type === 'date') {
-					travelPlan[appConfig[index1].key].val = toTravelDate(travelPlan[appConfig[index1].key].val);
+					travelPlan[appConfig[index1].key] = toTravelDate(travelPlan[appConfig[index1].key]);
 				}
-				assignAttrib(appConfig[index1],"ng-model","travelPlan['" + appConfig[index1].key + "'].val");
+				assignAttrib(appConfig[index1],"ng-model","travelPlan['" + appConfig[index1].key + "']");
 			}
 
 			angular.module('booking', [])
