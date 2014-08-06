@@ -6,8 +6,11 @@
     <link href="/libs/bootstrap-3.2.0/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/libs/bootstrap-3.2.0/css/bootstrap-theme.css" rel="stylesheet" media="screen">
     <style>
-      input.ng-invalid {
-          background-color: #fcf8e3;
+      input.ng-invalid, input.ng-invalid[type="radio"] ~ span {
+        background-color: #fcf8e3;
+      }
+      input.ng-valid, input.ng-valid[type="radio"] ~ span {
+        background-color: #dff0d8;
       }
     </style>
   </head>
@@ -18,9 +21,9 @@
        <div class="row">
         <div class="col-md-3">List of Travel Plans:</div>
         <div class="col-md-9">
-          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan()"></select>
-          <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
-          <button class="btn btn-primary" ng-click="saveTravelPlan()" ng-disabled="optionForm.$invalid">Save</button>
+           <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan(false)"></select>
+          <button class="btn btn-default" ng-click="saveTravelPlan(true)">New</button>
+          <button class="btn btn-primary" ng-click="saveTravelPlan(false)">Save</button>
           <button class="btn btn-default" ng-click="deleteTravelPlan()">Delete</button>
           <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
           <button class="btn btn-success" ng-click="startBooking()" ng-disabled="optionForm.$invalid">Start Booking</button>
@@ -69,7 +72,7 @@
                <input placeholder="{{item.trainNum.placeholder}}" type="{{item.trainNum.type}}" ng-model="choice.trainNum" required/>&emsp;&emsp;
                {{item.class.displayName}}
                 <span ng-repeat="rdBtn in item.class.options">
-                  <input type="{{item.class.type}}" ng-model="choice.class" ng-value="rdBtn.value" name="{{item.class.key + pref}}"/>{{rdBtn.label}} &emsp;
+                  <input type="{{item.class.type}}" ng-model="choice.class" ng-value="rdBtn.value" name="{{item.class.key + pref}}" required><span>{{rdBtn.label}}</span></input> &emsp;
                 </span>
                <button type="button" class="btn btn-default" ng-click="deleteBookingPreference($index)">{{item.deleteBtnCaption}}</button>
             </div>
@@ -84,9 +87,9 @@
       <div class="row">
         <div class="col-md-3">List of Travel Plans:</div>
         <div class="col-md-9">
-          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan()"></select>
-          <button class="btn btn-default" ng-click="getTravelPlan(true)">New</button>
-          <button class="btn btn-primary" ng-click="saveTravelPlan()" ng-disabled="optionForm.$invalid">Save</button>
+          <select ng-model="travelPlanList.currentTravelPlan" ng-options="opt.id as opt.name for opt in travelPlanList.list" ng-change="saveTravelPlan(false)"></select>
+          <button class="btn btn-default" ng-click="saveTravelPlan(true)">New</button>
+          <button class="btn btn-primary" ng-click="saveTravelPlan(false)">Save</button>
           <button class="btn btn-default" ng-click="deleteTravelPlan()">Delete</button>
           <button class="btn btn-default" ng-click="getTravelPlan(false)">Cancel</button>
           <button class="btn btn-success" ng-click="startBooking()" ng-disabled="optionForm.$invalid">Start Booking</button>

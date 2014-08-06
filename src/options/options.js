@@ -14,11 +14,11 @@
 	        	$scope.travelPlan.preference.splice(index,1);
         	}
         };
-	    $scope.saveTravelPlan = function(){
+	    $scope.saveTravelPlan = function(createNew){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
 	           data:$scope.travelPlan, currentTravelPlan:$scope.travelPlanList.currentTravelPlan}, 
 	           function(response) {
-   				$scope.getTravelPlan(false);
+   				$scope.getTravelPlan(createNew);
 	           });
         };
         $scope.deleteTravelPlan = function() {
@@ -62,6 +62,7 @@
 	           });
 	    };
 	    $scope.startBooking = function() {
+	    	$scope.saveTravelPlan(false);
 	    	chrome.tabs.create({url:"https://www.irctc.co.in/"});
 	    };
 	    $scope.getTravelPlan(false);
