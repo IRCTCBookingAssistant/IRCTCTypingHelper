@@ -15,7 +15,7 @@
         	}
         };
         $scope.addPassenger = function() {
-        	$scope.travelPlan.passenger.push({psgName:""});
+        	$scope.travelPlan.passenger.push({psgName:"",psgBerth:"9",psgSenior:false});
         };
         $scope.deletePassenger = function(index) {
         	if($scope.travelPlan.passenger.length > 1 && index >= 0 && index < $scope.travelPlan.passenger.length) {

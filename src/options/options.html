@@ -90,6 +90,8 @@
               <th>{{item.psgName.displayName}}</th>
               <th>{{item.psgAge.displayName}}</th>
               <th>{{item.psgGender.displayName}}</th>
+              <th>{{item.psgBerth.displayName}}</th>
+              <th>{{item.psgSenior.displayName}}</th>
               <th></th>
             </thead>
             <tbody>
@@ -98,9 +100,11 @@
                 <td><input placeholder="{{item.psgName.placeholder}}" type="{{item.psgName.type}}" ng-model="psg.psgName" maxLength="60" required/></td>
                 <td><input placeholder="{{item.psgAge.placeholder}}" type="{{item.psgAge.type}}" ng-model="psg.psgAge" min="0" max="200" required/></td>
                 <td><select ng-model="psg.psgGender" ng-options="opt.value as opt.label for opt in item.psgGender.options" required></select></td>
+                <td><select ng-model="psg.psgBerth" ng-options="opt.value as opt.label for opt in item.psgBerth.options" required></select></td>
+                <td><input type="{{item.psgSenior.type}}" ng-model="psg.psgSenior" />
                 <td><button type="button" class="btn btn-default" ng-click="deletePassenger($index)" ng-disabled="travelPlan.passenger.length <= 1">{{item.deleteBtnCaption}}</button></td>
               </tr>
-              <tr><td colspan="5"><button type="button" class="btn btn-default" ng-click="addPassenger()" ng-disabled="travelPlan.passenger.length > item.max">{{item.addBtnCaption}}</button></td></tr>
+              <tr><td colspan="7"><button type="button" class="btn btn-default" ng-click="addPassenger()" ng-disabled="travelPlan.passenger.length > item.max">{{item.addBtnCaption}}</button></td></tr>
             </tbody>
           </table>
         </div>

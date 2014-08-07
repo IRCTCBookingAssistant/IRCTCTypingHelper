@@ -52,7 +52,7 @@
            date:defaultDate(),
            quota:"CK",
            preference: [{trainNum:"", class:""}],
-           passenger: [{psgName:"",psgAge:"",psgGender:""}]
+           passenger: [{psgName:"",psgAge:"",psgGender:"", psgBerth:"9", psgSenior:false}]
            //,
            //ticketType:{value:"E_TICKET",label:"E-ticket"}
         };
@@ -86,7 +86,21 @@
                 psgName: {key:"psgName", displayName:"Name", placeholder:"Passenger Name", control:"input",type:"text"},
                 psgAge: {key:"psgAge", displayName:"Age", placeholder:"Age", control:"input",type:"number"},
                 psgGender: {key:"psgGender", displayName:"Gender", control:"select", 
-                    options:[{value:"M", label:"Male"},{value:"F", label:"Female"}]}
+                    options:[{value:"M", label:"Male"},{value:"F", label:"Female"}]},
+                psgBerth: {key:"psgBerth", displayName:"Berth Preference", control:"select",
+                    options: [{value:"99",label:"No Preference"},
+                        {value:"9",label:"Lower"},
+                        {value:"1",label:"Middle"},
+                        {value:"2",label:"Upper"},
+                        {value:"3",label:"Side Lower"},
+                        {value:"4",label:"Side Upper"},
+                        {value:"5",label:"Window Side"},
+                        {value:"6",label:"Aisle"},
+                        {value:"7",label:"Cabin"},
+                        {value:"8",label:"Coupe"},
+                        {value:"10",label:"Side Middle"}
+                        ]},
+                psgSenior: {key:"psgSenior", displayName:"Senior Citizen", control:"input", type:"checkbox"}
             }
             //,
             //{key:"ticketType", displayName:"Ticket Type", control:"select",
