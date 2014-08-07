@@ -51,7 +51,8 @@
            to:"",
            date:defaultDate(),
            quota:"CK",
-           preference: [{trainNum:"", class:""}]
+           preference: [{trainNum:"", class:""}],
+           passenger: [{psgName:"",psgAge:"",psgGender:""}]
            //,
            //ticketType:{value:"E_TICKET",label:"E-ticket"}
         };
@@ -72,14 +73,20 @@
             {key:"quota", displayName:"Quota",control:"radio",type:"radio", 
                 options:[{value:"GN",label:"GENERAL"},{value:"LD",label:"LADIES"},{value:"CK",label:"TATKAL"}],
                 name:"quota",url:"/eticketing/mainpage.jsf"},
-            {key:"preference", displayName: "Booking Preference", control:"trainBookingPreference", url:"fake", 
+            {key:"preference", displayName: "Booking Preference", control:"trainBookingPreference", url:"fake",  
                 addBtnCaption: "Add New Preference", deleteBtnCaption: "Delete",
-                trainNum:{key:"trainNum", displayName:"Train Number",placeholder:"Train Number",control:"input",type:"number",
-                url:"fake"},
+                trainNum:{key:"trainNum", displayName:"Train Number",placeholder:"Train Number",control:"input",type:"number"},
                 class:{key:"class", displayName:"Class",control:"radio",type:"radio",
                     options:[{value:"1A",label:"1A"},{value:"2A",label:"2A"},{value:"3A",label:"3A"},
                     {value:"SL",label:"SL"},{value:"CC",label:"CC"},{value:"2S",label:"2S"}]
                 }
+            },
+            {key:"passenger", displayName: "Passenger Details", control:"passengerDetail", max: 6, url:"fake",
+                addBtnCaption: "Add New Passenger", deleteBtnCaption: "Delete",
+                psgName: {key:"psgName", displayName:"Name", placeholder:"Passenger Name", control:"input",type:"text"},
+                psgAge: {key:"psgAge", displayName:"Age", placeholder:"Age", control:"input",type:"number"},
+                psgGender: {key:"psgGender", displayName:"Gender", control:"select", 
+                    options:[{value:"M", label:"Male"},{value:"F", label:"Female"}]}
             }
             //,
             //{key:"ticketType", displayName:"Ticket Type", control:"select",

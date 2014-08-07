@@ -14,6 +14,14 @@
 	        	$scope.travelPlan.preference.splice(index,1);
         	}
         };
+        $scope.addPassenger = function() {
+        	$scope.travelPlan.passenger.push({psgName:""});
+        };
+        $scope.deletePassenger = function(index) {
+        	if($scope.travelPlan.passenger.length > 1 && index >= 0 && index < $scope.travelPlan.passenger.length) {
+        		$scope.travelPlan.passenger.splice(index,1);
+        	}
+        };
 	    $scope.saveTravelPlan = function(createNew){
 	        chrome.extension.sendRequest({method: "saveTravelPlan", 
 	           data:$scope.travelPlan, currentTravelPlan:$scope.travelPlanList.currentTravelPlan}, 
