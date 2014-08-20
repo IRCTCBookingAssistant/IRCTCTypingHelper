@@ -9,6 +9,11 @@ module.exports = function(grunt) {
         jshintrc: true
       }
     },
+    ts: {
+      build: {
+        src: ['src/background/**/*.ts', 'src/contentscript/**/*.ts','src/options/**/*.ts']
+      }
+    },
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint']
@@ -17,8 +22,9 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks("grunt-ts");
   
-  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('test', ['ts:build','jshint']);
 
   grunt.registerTask('default', ['jshint']);
 
