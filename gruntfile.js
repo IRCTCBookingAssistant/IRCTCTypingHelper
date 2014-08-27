@@ -14,18 +14,27 @@ module.exports = function(grunt) {
         src: ['src/background/**/*.ts', 'src/contentscript/**/*.ts','src/options/**/*.ts']
       }
     },
+    tslint: {
+      options: {
+        configuration: grunt.file.readJSON("./node_modules/grunt-tslint/tslint.json")
+      },
+      files: {
+        src: ['src/background/**/*.ts', 'src/contentscript/**/*.ts','src/options/**/*.ts']
+      }
+    },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      files: ['<%= ts.build.src%>','<%= jshint.files %>'],
+      tasks: ['tslint','ts:build','jshint']
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks("grunt-ts");
+  grunt.loadNpmTasks('grunt-tslint');
   
-  grunt.registerTask('test', ['ts:build','jshint']);
+  grunt.registerTask('test', ['tslint','ts:build','jshint']);
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['tslint','ts:build','jshint']);
 
 };
